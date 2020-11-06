@@ -1,7 +1,7 @@
-import React, { useRef, useCallback } from 'react';
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable prettier/prettier */
+import React, { useMemo, useRef } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
-
 import { FormHandles } from '@unform/core';
 
 import { View } from 'react-native';
@@ -20,7 +20,6 @@ import {
   ProductPrice,
   ProductQuantity,
   ActionContainer,
-  ActionButton,
   TotalProductsContainer,
   TotalProductsText,
   SubtotalValue,
@@ -28,9 +27,8 @@ import {
 
 import { useCart } from '../../hooks/cart';
 
-import Button from '../../components/Button';
-
 import formatValue from '../../utils/formatValue';
+import Button from '../../components/Button';
 
 interface Product {
   id: string;
@@ -41,42 +39,28 @@ interface Product {
 }
 
 const Cart: React.FC = () => {
+  const { products } = useCart();
   const formRef = useRef<FormHandles>(null);
-  const { increment, decrement, products } = useCart();
 
-  const { navigate } = useNavigation();
+  const cartTotal = useMemo(() => {
+    const total = products.reduce((accumulator, product) => {
+      const productsSub = product.price * product.quantity;
 
-  function handleIncrement(id: string): void {
-    increment(id);
-  }
+      return accumulator + productsSub;
+    }, 0);
 
-  function handleDecrement(id: string): void {
-    decrement(id);
-  }
+    return formatValue(total);
+  }, [products]);
 
-  const handleCheck = useCallback(() => {
-    navigate('Check');
-  }, [navigate]);
+  const totalItensInCart = useMemo(() => {
+    const total = products.reduce((accumulator, product) => {
+      const productsQt = product.quantity;
 
-  // const cartTotal = useMemo(() => {
-  //   const total = products.reduce((accumulator, product) => {
-  //     const productsSub = product.price * product.quantity;
+      return accumulator + productsQt;
+    }, 0);
 
-  //     return accumulator + productsSub;
-  //   }, 0);
-
-  //   return formatValue(total);
-  // }, [products]);
-
-  // const totalItensInCart = useMemo(() => {
-  //   const total = products.reduce((accumulator, product) => {
-  //     const productsQt = product.quantity;
-
-  //     return accumulator + productsQt;
-  //   }, 0);
-
-  //   return total;
-  // }, [products]);
+    return total;
+  }, [products]);
 
   return (
     <Container>
@@ -108,29 +92,23 @@ const Cart: React.FC = () => {
                 </ProductPriceContainer>
               </ProductTitleContainer>
               <ActionContainer>
-                <ActionButton
-                  testID={`increment-${item.id}`}
-                  onPress={() => handleIncrement(item.id)}
-                >
-                  <FeatherIcon name="plus" color="#2c8542" size={16} />
-                </ActionButton>
-                <ActionButton
-                  testID={`decrement-${item.id}`}
-                  onPress={() => handleDecrement(item.id)}
-                >
-                  <FeatherIcon name="minus" color="#2c8542" size={16} />
-                </ActionButton>
+                <FeatherIcon name="check" color="#2c8542" size={16} />
               </ActionContainer>
             </Product>
           )}
         />
       </ProductContainer>
-      {/* <TotalProductsContainer>
-        <FeatherIcon name="shopping-cart" color="#fff" size={24} />
+      <TotalProductsContainer>
         <TotalProductsText>{`${totalItensInCart} itens`}</TotalProductsText>
-        <SubtotalValue>{cartTotal}</SubtotalValue>
-      </TotalProductsContainer> */}
-      <Button onPress={handleCheck}>Comprar</Button>
+        <SubtotalValue>Total {cartTotal}</SubtotalValue>
+      </TotalProductsContainer>
+      <Button
+        onPress={() => {
+          formRef.current?.submitForm();
+        }}
+      >
+        Finalizar
+      </Button>
     </Container>
   );
 };

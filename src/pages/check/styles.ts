@@ -40,7 +40,8 @@ export const ProductImage = styled.Image`
 
 export const ProductTitleContainer = styled.View`
   font-size: 16px;
-  margin-left: 5px;
+  margin-left: 25px;
+  margin-top: 11px;
 `;
 
 export const ProductTitle = styled.Text`
@@ -80,7 +81,7 @@ export const ProductQuantity = styled.Text`
 `;
 
 export const ActionContainer = styled.View`
-  align-self: flex-end;
+  align-self: center;
   align-items: center;
   justify-content: space-between;
 
@@ -95,28 +96,29 @@ export const ActionButton = styled.TouchableOpacity`
 `;
 
 export const TotalProductsContainer = styled.View`
-  position: absolute;
+  /* position: absolute; */
   bottom: 0px;
 
   flex-direction: row;
-  background: #35a05b;
+  /* background: #35a05b; */
 
-  padding: 20px 40px;
-  justify-content: space-between;
+  padding: 10px 40px;
+  /* justify-content: space-between; */
   align-items: center;
 `;
 
 export const TotalProductsText = styled.Text`
-  font-size: 16px;
-  color: #fff;
+  font-size: 24px;
+  color: #666360;
   margin-left: 15px;
 
-  flex: 1;
+  /* flex: 1; */
   font-weight: bold;
 `;
 
 export const SubtotalValue = styled.Text`
-  font-size: 16px;
-  color: #fff;
+  font-size: 28px;
+  color: #666360;
   font-weight: bold;
+  margin-left: 50px;
 `;

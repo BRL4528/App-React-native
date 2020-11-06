@@ -7,8 +7,10 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import Dashboard from '../pages/Dashboard';
 import Cart from '../pages/Cart';
+import Login from '../pages/login';
+import Check from '../pages/check';
 
-import Logo from '../assets/logo.png';
+import Logo from '../assets/logo1.png';
 
 const App = createStackNavigator();
 
@@ -18,8 +20,16 @@ const AppRoutes: React.FC = () => (
       headerShown: true,
       cardStyle: { backgroundColor: '#EBEEF8' },
     }}
-    initialRouteName="Dashboard"
+    initialRouteName="login"
   >
+    <App.Screen
+      options={{
+        headerShown: true,
+        headerTransparent: true,
+      }}
+      name=" "
+      component={Login}
+    />
     <App.Screen
       options={{
         headerShown: true,
@@ -42,6 +52,21 @@ const AppRoutes: React.FC = () => (
       }}
       name="Cart"
       component={Cart}
+    />
+
+    <App.Screen
+      options={{
+        headerTransparent: true,
+        headerTitle: () => <Image source={Logo} />,
+        headerBackTitleVisible: false,
+        headerLeftContainerStyle: {
+          marginLeft: 20,
+        },
+
+        headerBackImage: () => <FeatherIcon name="chevron-left" size={24} />,
+      }}
+      name="Check"
+      component={Check}
     />
   </App.Navigator>
 );
